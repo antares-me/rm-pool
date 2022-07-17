@@ -19,9 +19,20 @@ var counterPool = sync.Pool{
 	New: func() interface{} { return new(Counter) },
 }
 
-func BenchmarkWithoutPool(b *testing.B) {
+func BenchmarkWithoutPoolWithNewStruct (b *testing.B) {
 	var c *Counter
-	c = new(Counter)
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		for j := 0; j < 10000; j++ {
+			c = new(Counter)
+			IncrementCounter(c)
+		}
+	}
+}
+
+func BenchmarkWithoutPoolWithoutNewStruct (b *testing.B) {
+	c := new(Counter)
 	b.ReportAllocs()
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
