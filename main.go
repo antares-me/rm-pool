@@ -1,0 +1,5 @@
+package mypool
+
+func main() {
+
+}
